@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>요트다이스</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="common.css">
 </head>
 <body>
     <div id="app">
         <table>
             <tr>
-                <td>요트다이스</td>
+                <td class="title">요트다이스</td>
                 <td v-for="player in player" :key="player.name">
                     <input type="text" :placeholder="player.name">
                 </td>
@@ -23,7 +25,7 @@
                 </td>
             </tr>
             <tr>
-                <td>상단 점수의 합이 63점 이상이라면 <br><b>상단 보너스 +35점</b></td>
+                <td class="txt"><span>상단 점수의 합이 63점 이상이라면</span><br>상단 보너스 +35점</td>
                 <td v-for="(player, index) in player" :key="player.name">
                     {{calcNormalScore(index)}}
                 </td>
