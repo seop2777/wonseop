@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>요트다이스</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <table>
+            <tr>
+                <td>요트다이스</td>
+                <td v-for="player in player" :key="player.name">
+                    <input type="text" :placeholder="player.name">
+                </td>
+            </tr>
+            <tr v-for="(normalRanking, index) in normalRanking" :key="normalRanking">
+                <td>{{normalRanking}}</td>
+                <td v-for="player in player" :key="player.name">
+                    <input type="number" v-model.number="player.normalScore[index]">
+                </td>
+            </tr>
+            <tr>
+                <td>상단 점수의 합이 63점 이상이라면 <br><b>상단 보너스 +35점</b></td>
+                <td v-for="(player, index) in player" :key="player.name">
+                    {{calcNormalScore(index)}}
+                </td>
+            </tr>
+            <tr v-for="(specialRanking, index) in specialRanking" :key="specialRanking">
+                <td>{{specialRanking}}</td>
+                <td v-for="player in player" :key="player.name">
+                    <input type="number" v-model.number="player.specialScore[index]">
+                </td>
+            </tr>
+            <tr>
+                <td>총점</td>
+                <td v-for="(player, index) in player" :key="player.name">
+                    {{total(index)}}
+                </td>
+            </tr>
+        </table>
+        <button @click="addPlayer">플레이어추가</button>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    player: [
+                        {
+                            name: '플레이어1',
+                            normalScore: ['','','','','',''],
+                            specialScore: ['','','','','',''],
+                            normalTotal: 0
+                        },
+                        {
+                            name: '플레이어2',
+                            normalScore: ['','','','','',''],
+                            specialScore: ['','','','','',''],
+                            normalTotal: 0
+                        },
+                        {
+                            name: '플레이어3',
+                            normalScore: ['','','','','',''],
+                            specialScore: ['','','','','',''],
+                            normalTotal: 0
+                        },
+                        {
+                            name: '플레이어4',
+                            normalScore: ['','','','','',''],
+                            specialScore: ['','','','','',''],
+                            normalTotal: 0
+                        }
+                    ],
+                    normalRanking: ['에이스','듀얼','트리플','쿼드','펜타','헥사'],
+                    specialRanking: ['초이스','포커','풀하우스','스몰스트레이트(15점)','라지스트레이트(30점)', '요트(50점)']
+                }
+            },
+            methods: {
+                calcNormalScore(index){              
+                    if(this.player[index].normalTotal < 63){    
+                        this.player[index].normalTotal = this.player[index].normalScore.reduce((a,b)=>Number(a)+Number(b))
+                    } else{
+                        this.player[index].normalTotal = this.player[index].normalScore.reduce((a,b)=>Number(a)+Number(b)) + 35
+                    }
+                    return this.player[index].normalTotal
+                },
+                total(index){
+                    return this.player[index].specialScore.reduce((a,b)=>Number(a)+Number(b)) + this.player[index].normalTotal
+                },
+                addPlayer(){
+                    this.player.push({
+                        name: '플레이어' + (this.player.length + 1),
+                        normalScore: ['','','','','',''],
+                        specialScore: ['','','','','',''],
+                        normalTotal: 0
+                    })
+                }
+            },
+        })
+    </script>
+</body>
+</html>
